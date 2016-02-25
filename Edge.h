@@ -1,7 +1,6 @@
 #pragma once
 
 #include "stdafx.h"
-
 #include <ostream>
 #include <map>
 #include <string>
@@ -20,9 +19,10 @@ namespace prj {
 			static long m_InternalId;
 			static map<long, Edge*> m_mapIdToEdge;
 
+		private:
 			long m_Id;
-			long m_Va;
-			long m_Vb;
+			Vertice * m_ptVa;
+			Vertice * m_ptVb;
 			string m_Label;
 
 		public:
@@ -33,7 +33,10 @@ namespace prj {
 				return m_InternalId;
 			};
 
-			static long Id(void) { return m_InternalId; };
+			static long Id(void) 
+			{ 
+				return m_InternalId; 
+			};
 
 			static const Edge & GetWithId(long id)
 			{
@@ -41,24 +44,24 @@ namespace prj {
 				return *(itFind->second);
 			}
 
-			Edge(void) 
+			inline Edge(void) 
 			{
 				m_Label = "";
 				m_Id = IncId(this);
 			}
 
-			Edge(long vaId, long vbId,string label)
+			inline Edge(Vertice * ptVa, Vertice * ptVb, string label)
 			{
-				m_Va = vaId;
-				m_Vb = vbId;
+				m_ptVa = ptVa;
+				m_ptVb = ptVb;
 				m_Label = label;
 				m_Id = IncId(this);
 			}
 
-			Edge(const Edge & paramEdge)
+			inline Edge(const Edge & paramEdge)
 			{
-				m_Va = paramEdge.m_Va;
-				m_Va = paramEdge.m_Vb;
+				m_ptVa = paramEdge.m_ptVa;
+				m_ptVb = paramEdge.m_ptVb;
 				m_Label = paramEdge.m_Label;
 				m_Id = IncId(this);
 			}
@@ -75,33 +78,33 @@ namespace prj {
 
 			inline const Vertice & GetA(void) const 
 			{ 
-				return Vertice::GetWithId(m_Va); 
+				return *m_ptVa; 
 			};
 
 			inline const Vertice & GetB(void) const 
 			{ 
-				return Vertice::GetWithId(m_Vb); 
+				return *m_ptVb;
 			};
 
 			inline Vertice & GetA(void) 
 			{ 
-				return Vertice::GetWithId(m_Va); 
+				return *m_ptVa;
 			};
 
 			inline Vertice & GetB(void) 
 			{ 
-				return Vertice::GetWithId(m_Vb); 
+				return *m_ptVb;
 			};
 
 			friend std::ostream & operator<< (std::ostream & paramOutput, const Edge & paramEdge)
 			{
-				paramOutput << "(Id:" << paramEdge.GetId() << ";";
-				paramOutput << "(label:(" << paramEdge.GetLabel() << ");";
-				paramOutput << "(A:(" << paramEdge.GetA() << ");B:(" << paramEdge.GetB() << ");";
-				paramOutput << ")";
+				paramOutput << "<EDGE>";
+				paramOutput << "<ID>" << paramEdge.GetId() << "</ID>";
+				paramOutput << "<LABEL>" << paramEdge.GetLabel() << "</LABEL>";
+				paramOutput << "<A>" << paramEdge.GetA() << "</A><B>" << paramEdge.GetB() << "</B>";
+				paramOutput << "</EDGE>";
 				return paramOutput;
 			}
-
 		};
 	}
 }
