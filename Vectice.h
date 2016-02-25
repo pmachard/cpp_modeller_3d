@@ -19,6 +19,7 @@ namespace prj {
 			static long m_InternalId;
 			static map<long, Vertice*> m_mapIdToVertice;
 
+		private:
 			long m_Id;
 			string m_Label;
 		public:
@@ -29,7 +30,11 @@ namespace prj {
 				m_mapIdToVertice.insert(pair<long, Vertice*>(m_InternalId, pVertice));
 				return m_InternalId;
 			};
-			static long Id(void) { return m_InternalId; };
+
+			static long Id(void) 
+			{ 
+				return m_InternalId; 
+			};
 
 			static Vertice & GetWithId(long id)
 			{
@@ -66,10 +71,11 @@ namespace prj {
 
 			friend std::ostream & operator<< (std::ostream & paramOutput, const Vertice & paramVectice)
 			{
-				paramOutput << "(Id:" << paramVectice.GetId() << ";";
-				paramOutput << "(label:(" << paramVectice.GetLabel() << ");";
-				paramOutput << "(Vector:" << (const Vector3d<double> &)paramVectice;
-				paramOutput << ")";
+				paramOutput << "<VERTICE>";
+				paramOutput << "<ID>" << paramVectice.GetId() << "</ID>";
+				paramOutput << "<LABEL>" << paramVectice.GetLabel() << "</LABEL>";
+				paramOutput << (const Vector3d<double> &)paramVectice;
+				paramOutput << "</VERTICE>\n";
 				return paramOutput;
 			}
 		};
